@@ -1,13 +1,25 @@
 import React from 'react';
-import { ScrollView, View, Text,
-  // StyleSheet,
-  TouchableHighlight } from 'react-native';
+import { ScrollView, Dimensions, View, Text, TouchableHighlight, Button } from 'react-native';
 
 import { Orchestra } from 'react-orchestra/native';
+import randomcolor from 'randomcolor';
 
-const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/beet1track-medium-fast.mid';
+import SvgShape from './SvgShape';
+
+// const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/Mr+robot+main+theme+practice+1.mid';
+const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/Mr.+Robot+Main+Theme+midi.mid';
+// const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/beet1track-medium-fast.mid';
 // const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/single-track-test-tempo-10.mid'
 // const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/Beethoven+Fur+Elise+Easy+t30.mid';
+// const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/Beethoven+Fur+Elise+Easy.mid';
+// const midiURL = 'https://s3-eu-west-1.amazonaws.com/ut-music-player/assets/midis/soundsofsilence-t40.mid';
+
+const playingFillColor = randomcolor({ seed: 1, hue: 'blue', luminosity: 'bright' });
+const fillColor = randomcolor({ seed: 9, hue: 'blue' });
+const playingStrokeColor = randomcolor({ seed: 3, hue: 'blue', luminosity: 'bright' });
+const strokeColor = randomcolor({ seed: 4, hue: 'blue' });
+const buttonColor = randomcolor({ seed: 5, hue: 'blue' });
+
 class OrchestraExample extends React.Component {
   constructor(props) {
     super(props);
@@ -35,12 +47,10 @@ class OrchestraExample extends React.Component {
   }
   onInstrumentsReady(instruments) {
     this.setState({
-      // play: true,
-      instrumentLoaded: true
+      instrumentLoaded: true,
     });
     return instruments;
   }
-  //eslint-disable-next-line
   onNotePlayed(instrumentName, noteName) {
     if (!this.state.instrumentLoaded) return;
     this.setState(
@@ -53,48 +63,75 @@ class OrchestraExample extends React.Component {
     // console.warn(`Note ${noteName} was played, optionally handle this event`);
   }
   onNoteStopPlaying(instrumentName, noteName) {
-    const updatedPlayingNotes = Object.assign({}, this.state.playingNotes);
-    delete updatedPlayingNotes[instrumentName + noteName];
-    this.setState({ playingNotes: updatedPlayingNotes });
+    const playingNotes = Object.assign({}, this.state.playingNotes);
+    delete playingNotes[instrumentName + noteName]; // -= 1;
+    this.setState({ playingNotes });
     // console.warn(`Note ${noteName} stopped playing, optionally handle this event`);
   }
   togglePlayback() {
-    // alert('togglePlayback');
     this.setState({ play: !this.state.play });
   }
   renderNote(instrumentName, noteName) {
-    const isPlaying = (instrumentName + noteName) in this.state.playingNotes;
-    const noteStyle = { backgroundColor: isPlaying ? 'blue' : 'red' };
+    const isPlaying = (instrumentName + noteName) in this.state.playingNotes; //  ? this.state.playingNotes[instrumentName + noteName] : 0;
+    const width = 100;
+    const height = 100;
+    const noteStyle = { width, height, marginHorizontal: 10 };
+    const noteFillColor = isPlaying ? playingFillColor : fillColor;
+    const noteStrokecolor = isPlaying ? playingStrokeColor : strokeColor;
     return (
-      <View className="control">
-        <Text style={noteStyle} className={`button ${(instrumentName + noteName) in this.state.playingNotes ? 'is-primary' : ''}`}>
-          Note : {instrumentName} {noteName}
-        </Text>
+      <View style={noteStyle}>
+        <SvgShape
+          width={width}
+          height={height}
+          text={noteName}
+          animate={isPlaying}
+          fillColor={noteFillColor}
+          strokeColor={noteStrokecolor}
+        />
       </View>
     );
   }
   render() {
+    const { height, width } = Dimensions.get('window');
+    const footerHeight = 80;
+    const instrumentHeight = height - footerHeight;
     return (
-      <ScrollView>
-        <Orchestra
-          midiURL={midiURL}
-          onMidiLoaded={this.onMidiLoaded}
-          onInstrumentsReady={this.onInstrumentsReady}
-          play={this.state.play}
-          selectedTracks={[0]}
-          onNotePlayed={this.onNotePlayed}
-          onNoteStopPlaying={this.onNoteStopPlaying}
-          renderNote={this.renderNote}
-        >
-          <Text> This is an orchestra it can play complex melodies ! </Text>
-        </Orchestra>
-        <View className="control">
-          <TouchableHighlight onPress={this.togglePlayback} className={`button ${this.state.playC ? 'is-primary' : ''}`}>
-            <Text>Toggle playback</Text>
+      <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+        <ScrollView style={{ width, height: instrumentHeight }}>
+          <View >
+            <Orchestra
+              midiURL={midiURL}
+              onMidiLoaded={this.onMidiLoaded}
+              onInstrumentsReady={this.onInstrumentsReady}
+              play={this.state.play}
+              selectedTracks={[0]}
+              onNotePlayed={this.onNotePlayed}
+              onNoteStopPlaying={this.onNoteStopPlaying}
+              renderNote={this.renderNote}
+              instrumentName={'alto_sax'}
+              instrumentStyle={{ marginTop: 80, flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}
+            />
+          </View>
+        </ScrollView>
+        <View style={{ width, height: footerHeight }}>
+          <TouchableHighlight
+            onPress={this.togglePlayback}
+            underlayColor={randomcolor()}
+          >
+            <View
+              style={{ height: footerHeight, backgroundColor: buttonColor, alignItems: 'center' }}
+            >
+              <Text
+                style={{ lineHeight: footerHeight, color: 'white', fontWeight: 'bold' }}
+              >
+                {
+                this.state.play ? 'Stop Playing' : 'Start Playing'
+              }
+              </Text>
+            </View>
           </TouchableHighlight>
         </View>
-        {/* <button onClick={this.togglePlayback}>Toggle playback</button> */}
-      </ScrollView>
+      </View>
     );
   }
 }

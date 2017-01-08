@@ -28,6 +28,7 @@
 		E4738D9011664359B7048A3C /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD0925151ED48598D1569C7 /* libRealmReact.a */; };
 		41EE1BB185364F84801D3F29 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C852F81BDD37482CA3D58158 /* libc++.tbd */; };
 		762DC2BCFEEC42E789FFC4A5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4254694D91144084BAAFA673 /* libz.tbd */; };
+		4690808CAF8B4C19A99957C3 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 876D10FC68B14963BF2BFFE7 /* libRNSVG.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,8 @@
 		7BD0925151ED48598D1569C7 /* libRealmReact.a */ = {isa = PBXFileReference; name = "libRealmReact.a"; path = "libRealmReact.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		C852F81BDD37482CA3D58158 /* libc++.tbd */ = {isa = PBXFileReference; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		4254694D91144084BAAFA673 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		B39F02DE83B240A5A5C79EF7 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; name = "RNSVG.xcodeproj"; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		876D10FC68B14963BF2BFFE7 /* libRNSVG.a */ = {isa = PBXFileReference; name = "libRNSVG.a"; path = "libRNSVG.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,7 @@
 				E4738D9011664359B7048A3C /* libRealmReact.a in Frameworks */,
 				41EE1BB185364F84801D3F29 /* libc++.tbd in Frameworks */,
 				762DC2BCFEEC42E789FFC4A5 /* libz.tbd in Frameworks */,
+				4690808CAF8B4C19A99957C3 /* libRNSVG.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +325,7 @@
 				C9629FEC1C984955AC670A34 /* RNFS.xcodeproj */,
 				24E99CD4D3D34ADDB8357850 /* RNSound.xcodeproj */,
 				A09A893C255C42E180E4F4CF /* RealmReact.xcodeproj */,
+				B39F02DE83B240A5A5C79EF7 /* RNSVG.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -666,6 +671,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -682,6 +688,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReactOrchestraNativeDemo.app/ReactOrchestraNativeDemo";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -765,6 +772,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -808,6 +816,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/realm/src/**",
+					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
